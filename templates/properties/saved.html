@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load property_tags %}
+
+{% block content %}
+<section class="bg-gradient-to-br from-teal-900 to-gray-900 py-14">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <h1 class="font-display text-4xl font-bold text-white">Saved Properties</h1>
+  </div>
+</section>
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+  {% if saved_properties %}
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    {% for saved in saved_properties %}
+    {% include 'properties/_card.html' with property=saved.property %}
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="text-center py-20">
+    <i data-lucide="heart" class="w-12 h-12 text-gray-300 mx-auto mb-4"></i>
+    <h3 class="font-semibold text-gray-700 mb-2">No saved properties yet</h3>
+    <a href="{% url 'properties:list' %}" class="inline-flex mt-4 items-center gap-2 px-6 py-3 bg-teal-600 text-white rounded-xl font-semibold">Browse Properties</a>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

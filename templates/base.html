@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}{{ page_title|default:"Defola's Properties" }}{% endblock %}</title>
+  <meta name="description" content="{% block meta_description %}{{ meta_description|default:"Defola's Properties - Premium Real Estate in Nigeria." }}{% endblock %}" />
+  <link rel="canonical" href="{{ request.build_absolute_uri }}" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="{{ request.build_absolute_uri }}" />
+  <meta property="og:title" content="{% block og_title %}{{ page_title|default:"Defola's Properties" }}{% endblock %}" />
+  <meta property="og:description" content="{{ meta_description|default:"Premium Real Estate in Nigeria" }}" />
+  <meta property="og:image" content="{% block og_image %}{% if og_image %}{{ request.scheme }}://{{ request.get_host }}{{ og_image }}{% else %}{{ request.scheme }}://{{ request.get_host }}/static/images/og-default.jpg{% endif %}{% endblock %}" />
+  <meta property="og:site_name" content="Defola's Properties" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            teal: { 50:'#f0fdfa',100:'#ccfbf1',200:'#99f6e4',300:'#5eead4',400:'#2dd4bf',500:'#14b8a6',600:'#0d9488',700:'#0f766e',800:'#115e59',900:'#134e4a',950:'#042f2e' }
+          },
+          fontFamily: {
+            sans: ['Plus Jakarta Sans','system-ui','sans-serif'],
+            display: ['Cormorant Garamond','Georgia','serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <style>
+    body{font-family:'Plus Jakarta Sans',system-ui,sans-serif}
+    .font-display{font-family:'Cormorant Garamond',Georgia,serif}
+    .skeleton{background:linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%);background-size:200% 100%;animation:skeleton-loading 1.5s infinite}
+    @keyframes skeleton-loading{0%{background-position:200% 0}100%{background-position:-200% 0}}
+    .nav-scrolled{box-shadow:0 2px 20px rgba(0,0,0,.08);backdrop-filter:blur(12px);background:rgba(255,255,255,.95)!important}
+    ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:#f1f5f9}::-webkit-scrollbar-thumb{background:#14b8a6;border-radius:3px}
+    .img-zoom{overflow:hidden}.img-zoom img{transition:transform .5s ease}.img-zoom:hover img{transform:scale(1.05)}
+    .wa-pulse{animation:pulse-ring 2s ease-out infinite}
+    @keyframes pulse-ring{0%{box-shadow:0 0 0 0 rgba(37,211,102,.5)}70%{box-shadow:0 0 0 15px rgba(37,211,102,0)}100%{box-shadow:0 0 0 0 rgba(37,211,102,0)}}
+    .property-card{transition:transform .3s ease,box-shadow .3s ease}.property-card:hover{transform:translateY(-4px);box-shadow:0 20px 40px rgba(0,0,0,.12)}
+    @keyframes fadeIn{0%{opacity:0}100%{opacity:1}}
+    @keyframes slideUp{0%{opacity:0;transform:translateY(20px)}100%{opacity:1;transform:translateY(0)}}
+    .animate-fade-in{animation:fadeIn .6s ease-out forwards}
+    .animate-slide-up{animation:slideUp .5s ease-out forwards}
+  </style>
+  {% block extra_head %}{% endblock %}
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+  <!-- NAVBAR -->
+  <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 bg-white transition-all duration-300 border-b border-gray-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16 lg:h-20">
+        <a href="{% url 'core:home' %}" class="flex items-center gap-3 group">
+          <div class="w-10 h-10 bg-gradient-to-br from-teal-500 to-teal-700 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 9.5L12 3L21 9.5V20C21 20.55 20.55 21 20 21H15V15H9V21H4C3.45 21 3 20.55 3 20V9.5Z" fill="white" opacity=".9"/></svg>
+          </div>
+          <div class="leading-tight">
+            <div class="font-display text-lg font-bold text-teal-700">Defola's</div>
+            <div class="text-xs font-semibold text-gray-500 tracking-widest uppercase -mt-0.5">Properties</div>
+          </div>
+        </a>
+        <div class="hidden lg:flex items-center gap-8">
+          <a href="{% url 'core:home' %}" class="text-sm font-medium text-gray-600 hover:text-teal-600 transition-colors">Home</a>
+          <a href="{% url 'properties:list' %}" class="text-sm font-medium text-gray-600 hover:text-teal-600 transition-colors">Properties</a>
+          <a href="{% url 'core:about' %}" class="text-sm font-medium text-gray-600 hover:text-teal-600 transition-colors">About Us</a>
+          <a href="{% url 'core:contact' %}" class="text-sm font-medium text-gray-600 hover:text-teal-600 transition-colors">Contact</a>
+        </div>
+        <div class="hidden lg:flex items-center gap-3">
+          <a href="tel:{{ PHONE_NUMBER }}" class="flex items-center gap-2 px-4 py-2.5 bg-teal-50 text-teal-700 rounded-xl text-sm font-semibold hover:bg-teal-100 transition-colors">
+            <i data-lucide="phone" class="w-4 h-4"></i> Call Now
+          </a>
+          <a href="https://wa.me/{{ WHATSAPP_NUMBER|slice:'1:' }}" target="_blank" class="flex items-center gap-2 px-4 py-2.5 bg-green-500 text-white rounded-xl text-sm font-semibold hover:bg-green-600 transition-colors">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+            WhatsApp
+          </a>
+          {% if user.is_authenticated %}
+          <a href="{% url 'accounts:dashboard' %}" class="flex items-center gap-2 px-4 py-2.5 border border-gray-200 rounded-xl text-sm font-medium hover:border-teal-300 transition-colors">
+            <i data-lucide="user" class="w-4 h-4 text-teal-600"></i> Dashboard
+          </a>
+          {% endif %}
+        </div>
+        <button id="mobile-menu-btn" class="lg:hidden p-2 rounded-xl hover:bg-gray-100 transition-colors">
+          <i data-lucide="menu" class="w-6 h-6 text-gray-700"></i>
+        </button>
+      </div>
+    </div>
+    <div id="mobile-menu" class="lg:hidden hidden bg-white border-t border-gray-100 px-4 py-4">
+      <div class="space-y-1">
+        <a href="{% url 'core:home' %}" class="block px-4 py-3 rounded-xl text-sm font-medium text-gray-700 hover:bg-teal-50 hover:text-teal-600 transition-colors">Home</a>
+        <a href="{% url 'properties:list' %}" class="block px-4 py-3 rounded-xl text-sm font-medium text-gray-700 hover:bg-teal-50 hover:text-teal-600 transition-colors">Properties</a>
+        <a href="{% url 'core:about' %}" class="block px-4 py-3 rounded-xl text-sm font-medium text-gray-700 hover:bg-teal-50 hover:text-teal-600 transition-colors">About Us</a>
+        <a href="{% url 'core:contact' %}" class="block px-4 py-3 rounded-xl text-sm font-medium text-gray-700 hover:bg-teal-50 hover:text-teal-600 transition-colors">Contact</a>
+        {% if user.is_authenticated %}<a href="{% url 'accounts:dashboard' %}" class="block px-4 py-3 rounded-xl text-sm font-medium text-gray-700 hover:bg-teal-50 hover:text-teal-600 transition-colors">Dashboard</a>{% endif %}
+      </div>
+      <div class="flex gap-3 mt-4 pt-4 border-t border-gray-100">
+        <a href="tel:{{ PHONE_NUMBER }}" class="flex-1 flex items-center justify-center gap-2 py-3 bg-teal-600 text-white rounded-xl text-sm font-semibold"><i data-lucide="phone" class="w-4 h-4"></i> Call Now</a>
+        <a href="https://wa.me/{{ WHATSAPP_NUMBER|slice:'1:' }}" target="_blank" class="flex-1 flex items-center justify-center gap-2 py-3 bg-green-500 text-white rounded-xl text-sm font-semibold">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12c0 2.125.557 4.126 1.532 5.862L0 24l6.302-1.654A11.94 11.94 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0"/></svg>
+          WhatsApp
+        </a>
+      </div>
+    </div>
+  </nav>
+  <div class="h-16 lg:h-20"></div>
+
+  {% if messages %}
+  <div class="fixed top-20 right-4 z-50 space-y-2 w-80 max-w-full" id="messages-container">
+    {% for message in messages %}
+    <div class="flex items-start gap-3 p-4 rounded-xl shadow-lg border animate-slide-up {% if message.tags == 'success' %}bg-emerald-50 border-emerald-200 text-emerald-800{% elif message.tags == 'error' %}bg-red-50 border-red-200 text-red-800{% else %}bg-blue-50 border-blue-200 text-blue-800{% endif %}">
+      <p class="text-sm font-medium flex-1">{{ message }}</p>
+      <button onclick="this.parentElement.remove()" class="hover:opacity-70"><i data-lucide="x" class="w-4 h-4"></i></button>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <main>{% block content %}{% endblock %}</main>
+
+  <!-- FOOTER -->
+  <footer class="bg-gray-900 text-gray-300 mt-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+        <div>
+          <div class="flex items-center gap-3 mb-5">
+            <div class="w-10 h-10 bg-gradient-to-br from-teal-500 to-teal-700 rounded-xl flex items-center justify-center">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3 9.5L12 3L21 9.5V20C21 20.55 20.55 21 20 21H15V15H9V21H4C3.45 21 3 20.55 3 20V9.5Z" fill="white" opacity=".9"/></svg>
+            </div>
+            <div>
+              <div class="font-display text-lg font-bold text-white">Defola's Properties</div>
+              <div class="text-xs text-teal-400 tracking-widest uppercase">Premium Real Estate</div>
+            </div>
+          </div>
+          <p class="text-sm text-gray-400 leading-relaxed mb-5">Your trusted real estate partner in Nigeria. We connect you with premium properties across Lagos and beyond.</p>
+          <div class="flex gap-3">
+            <a href="#" class="w-9 h-9 bg-gray-800 hover:bg-teal-600 rounded-lg flex items-center justify-center transition-colors"><i data-lucide="facebook" class="w-4 h-4"></i></a>
+            <a href="#" class="w-9 h-9 bg-gray-800 hover:bg-teal-600 rounded-lg flex items-center justify-center transition-colors"><i data-lucide="instagram" class="w-4 h-4"></i></a>
+            <a href="#" class="w-9 h-9 bg-gray-800 hover:bg-teal-600 rounded-lg flex items-center justify-center transition-colors"><i data-lucide="twitter" class="w-4 h-4"></i></a>
+          </div>
+        </div>
+        <div>
+          <h4 class="text-white font-semibold mb-5">Quick Links</h4>
+          <ul class="space-y-3">
+            <li><a href="{% url 'core:home' %}" class="text-sm text-gray-400 hover:text-teal-400 transition-colors">Home</a></li>
+            <li><a href="{% url 'properties:list' %}" class="text-sm text-gray-400 hover:text-teal-400 transition-colors">All Properties</a></li>
+            <li><a href="{% url 'core:about' %}" class="text-sm text-gray-400 hover:text-teal-400 transition-colors">About Us</a></li>
+            <li><a href="{% url 'core:contact' %}" class="text-sm text-gray-400 hover:text-teal-400 transition-colors">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-white font-semibold mb-5">Property Types</h4>
+          <ul class="space-y-3">
+            <li><a href="{% url 'properties:list' %}?property_type=land" class="text-sm text-gray-400 hover:text-teal-400 transition-colors">Land</a></li>
+            <li><a href="{% url 'properties:list' %}?property_type=apartment" class="text-sm text-gray-400 hover:text-teal-400 transition-colors">Apartments</a></li>
+            <li><a href="{% url 'properties:list' %}?property_type=duplex" class="text-sm text-gray-400 hover:text-teal-400 transition-colors">Duplexes</a></li>
+            <li><a href="{% url 'properties:list' %}?property_type=commercial" class="text-sm text-gray-400 hover:text-teal-400 transition-colors">Commercial</a></li>
+            <li><a href="{% url 'properties:list' %}?property_type=bungalow" class="text-sm text-gray-400 hover:text-teal-400 transition-colors">Bungalows</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-white font-semibold mb-5">Contact Us</h4>
+          <ul class="space-y-4">
+            <li class="flex items-start gap-3"><i data-lucide="map-pin" class="w-4 h-4 text-teal-400 mt-0.5 flex-shrink-0"></i><span class="text-sm text-gray-400">123 Marina Street, Lagos Island, Nigeria</span></li>
+            <li class="flex items-center gap-3"><i data-lucide="phone" class="w-4 h-4 text-teal-400 flex-shrink-0"></i><a href="tel:{{ PHONE_NUMBER }}" class="text-sm text-gray-400 hover:text-teal-400 transition-colors">{{ PHONE_NUMBER }}</a></li>
+            <li class="flex items-center gap-3"><i data-lucide="mail" class="w-4 h-4 text-teal-400 flex-shrink-0"></i><a href="mailto:{{ CONTACT_EMAIL }}" class="text-sm text-gray-400 hover:text-teal-400 transition-colors">{{ CONTACT_EMAIL }}</a></li>
+            <li class="flex items-center gap-3"><i data-lucide="clock" class="w-4 h-4 text-teal-400 flex-shrink-0"></i><span class="text-sm text-gray-400">Mon–Sat: 8AM – 6PM</span></li>
+          </ul>
+          <a href="https://wa.me/{{ WHATSAPP_NUMBER|slice:'1:' }}" target="_blank" class="mt-5 flex items-center gap-3 bg-green-600 hover:bg-green-500 text-white px-4 py-3 rounded-xl text-sm font-semibold transition-colors">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12c0 2.125.557 4.126 1.532 5.862L0 24l6.302-1.654A11.94 11.94 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0"/></svg>
+            Chat on WhatsApp
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="border-t border-gray-800 py-5">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <p class="text-sm text-gray-500">© {% now "Y" %} Defola's Properties. All rights reserved.</p>
+        <div class="flex gap-4">
+          <a href="/sitemap.xml" class="text-xs text-gray-500 hover:text-teal-400 transition-colors">Sitemap</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Floating WhatsApp -->
+  <a href="https://wa.me/{{ WHATSAPP_NUMBER|slice:'1:' }}?text=Hello%2C%20I%27m%20interested%20in%20your%20properties." target="_blank" class="fixed bottom-6 right-6 z-50 w-14 h-14 bg-green-500 hover:bg-green-400 text-white rounded-full shadow-xl flex items-center justify-center wa-pulse transition-transform hover:scale-110" title="Chat on WhatsApp">
+    <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+  </a>
+
+  <script>
+    lucide.createIcons();
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll',()=>{
+      if(window.scrollY>30)navbar.classList.add('nav-scrolled');
+      else navbar.classList.remove('nav-scrolled');
+    });
+    const btn=document.getElementById('mobile-menu-btn');
+    const menu=document.getElementById('mobile-menu');
+    btn.addEventListener('click',()=>menu.classList.toggle('hidden'));
+    setTimeout(()=>{const c=document.getElementById('messages-container');if(c)c.style.display='none';},5000);
+  </script>
+  {% block extra_js %}{% endblock %}
+</body>
+</html>

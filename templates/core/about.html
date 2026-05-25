@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Hero -->
+<section class="bg-gradient-to-br from-teal-900 to-gray-900 py-20">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <p class="text-teal-300 font-semibold text-sm tracking-wider uppercase mb-3">About Us</p>
+    <h1 class="font-display text-5xl font-bold text-white mb-5">Nigeria's Most Trusted<br/>Real Estate Company</h1>
+    <p class="text-teal-100 text-lg max-w-2xl mx-auto">We've been connecting Nigerians with their dream properties since 2010. Over a decade of trust, integrity and results.</p>
+  </div>
+</section>
+
+<!-- Stats -->
+<section class="bg-teal-600 py-12">
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center text-white">
+      <div><div class="font-display text-4xl font-bold">10+</div><div class="text-teal-100 text-sm mt-1">Years Experience</div></div>
+      <div><div class="font-display text-4xl font-bold">500+</div><div class="text-teal-100 text-sm mt-1">Properties Sold</div></div>
+      <div><div class="font-display text-4xl font-bold">450+</div><div class="text-teal-100 text-sm mt-1">Happy Clients</div></div>
+      <div><div class="font-display text-4xl font-bold">20+</div><div class="text-teal-100 text-sm mt-1">Team Members</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- Story -->
+<section class="py-20 bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-14 items-center">
+      <div>
+        <p class="text-teal-600 font-semibold text-sm tracking-wider uppercase mb-3">Our Story</p>
+        <h2 class="font-display text-4xl font-bold text-gray-900 mb-6">Built on Trust,<br/>Driven by Results</h2>
+        <div class="space-y-4 text-gray-600 leading-relaxed">
+          <p>Defola's Properties was founded with a simple mission: to make real estate accessible, transparent, and trustworthy for every Nigerian.</p>
+          <p>From our humble beginnings in Lagos, we've grown into one of Nigeria's most respected real estate companies, helping thousands of individuals, families, and businesses find their perfect properties.</p>
+          <p>We pride ourselves on our integrity, expertise, and commitment to delivering exceptional service at every step of the property journey.</p>
+        </div>
+        <div class="mt-8 flex flex-col sm:flex-row gap-4">
+          <a href="{% url 'properties:list' %}" class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-teal-600 text-white rounded-xl font-semibold hover:bg-teal-500 transition-colors">Browse Properties</a>
+          <a href="{% url 'core:contact' %}" class="inline-flex items-center justify-center gap-2 px-6 py-3 border-2 border-teal-600 text-teal-600 rounded-xl font-semibold hover:bg-teal-50 transition-colors">Contact Us</a>
+        </div>
+      </div>
+      <div class="grid grid-cols-2 gap-4">
+        <div class="bg-gradient-to-br from-teal-50 to-teal-100 rounded-2xl p-8 text-center">
+          <i data-lucide="shield-check" class="w-10 h-10 text-teal-600 mx-auto mb-3"></i>
+          <h3 class="font-semibold text-gray-900">Verified Listings</h3>
+          <p class="text-sm text-gray-500 mt-2">Every property is thoroughly verified</p>
+        </div>
+        <div class="bg-gradient-to-br from-amber-50 to-amber-100 rounded-2xl p-8 text-center">
+          <i data-lucide="award" class="w-10 h-10 text-amber-600 mx-auto mb-3"></i>
+          <h3 class="font-semibold text-gray-900">Award Winning</h3>
+          <p class="text-sm text-gray-500 mt-2">Recognized for excellence in real estate</p>
+        </div>
+        <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-8 text-center">
+          <i data-lucide="handshake" class="w-10 h-10 text-blue-600 mx-auto mb-3"></i>
+          <h3 class="font-semibold text-gray-900">Fair Deals</h3>
+          <p class="text-sm text-gray-500 mt-2">Transparent pricing, no hidden costs</p>
+        </div>
+        <div class="bg-gradient-to-br from-green-50 to-green-100 rounded-2xl p-8 text-center">
+          <i data-lucide="headphones" class="w-10 h-10 text-green-600 mx-auto mb-3"></i>
+          <h3 class="font-semibold text-gray-900">24/7 Support</h3>
+          <p class="text-sm text-gray-500 mt-2">Always here when you need us</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Team -->
+{% if team_members %}
+<section class="py-20 bg-gray-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-14">
+      <p class="text-teal-600 font-semibold text-sm tracking-wider uppercase mb-2">The People Behind It</p>
+      <h2 class="font-display text-4xl font-bold text-gray-900">Meet Our Team</h2>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+      {% for member in team_members %}
+      <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow text-center">
+        {% if member.photo %}
+        <img src="{{ member.photo.url }}" alt="{{ member.name }}" class="w-full h-56 object-cover object-top" />
+        {% else %}
+        <div class="w-full h-56 bg-gradient-to-br from-teal-100 to-teal-200 flex items-center justify-center">
+          <div class="w-20 h-20 bg-teal-500 rounded-full flex items-center justify-center text-white font-display text-3xl font-bold">{{ member.name|first }}</div>
+        </div>
+        {% endif %}
+        <div class="p-5">
+          <h3 class="font-bold text-gray-900 text-lg">{{ member.name }}</h3>
+          <p class="text-teal-600 text-sm font-medium mb-3">{{ member.role }}</p>
+          {% if member.bio %}<p class="text-gray-500 text-xs leading-relaxed mb-4">{{ member.bio|truncatewords:20 }}</p>{% endif %}
+          <div class="flex justify-center gap-3">
+            {% if member.phone %}<a href="tel:{{ member.phone }}" class="w-8 h-8 bg-teal-50 rounded-lg flex items-center justify-center hover:bg-teal-100 transition-colors"><i data-lucide="phone" class="w-3.5 h-3.5 text-teal-600"></i></a>{% endif %}
+            {% if member.whatsapp %}<a href="https://wa.me/{{ member.whatsapp|slice:'1:' }}" target="_blank" class="w-8 h-8 bg-green-50 rounded-lg flex items-center justify-center hover:bg-green-100 transition-colors"><svg class="w-3.5 h-3.5 text-green-600" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12c0 2.125.557 4.126 1.532 5.862L0 24l6.302-1.654A11.94 11.94 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0"/></svg></a>{% endif %}
+            {% if member.email %}<a href="mailto:{{ member.email }}" class="w-8 h-8 bg-blue-50 rounded-lg flex items-center justify-center hover:bg-blue-100 transition-colors"><i data-lucide="mail" class="w-3.5 h-3.5 text-blue-600"></i></a>{% endif %}
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- CTA -->
+<section class="py-16 bg-teal-600">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <h2 class="font-display text-4xl font-bold text-white mb-5">Ready to Work with Us?</h2>
+    <p class="text-teal-100 mb-8">Contact us today for a free consultation. We're ready to help you find your dream property.</p>
+    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+      <a href="tel:{{ PHONE_NUMBER }}" class="flex items-center justify-center gap-2 bg-white text-teal-700 px-8 py-4 rounded-2xl font-bold hover:bg-gray-50 transition-colors"><i data-lucide="phone" class="w-5 h-5"></i> {{ PHONE_NUMBER }}</a>
+      <a href="{% url 'core:contact' %}" class="flex items-center justify-center gap-2 bg-teal-700 text-white px-8 py-4 rounded-2xl font-bold hover:bg-teal-800 transition-colors"><i data-lucide="mail" class="w-5 h-5"></i> Send a Message</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

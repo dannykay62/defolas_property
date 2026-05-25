@@ -1,0 +1,281 @@
+[
+  {
+    "model": "properties.location",
+    "pk": 1,
+    "fields": {"name": "Lekki", "state": "Lagos", "slug": "lekki-lagos"}
+  },
+  {
+    "model": "properties.location",
+    "pk": 2,
+    "fields": {"name": "Victoria Island", "state": "Lagos", "slug": "victoria-island-lagos"}
+  },
+  {
+    "model": "properties.location",
+    "pk": 3,
+    "fields": {"name": "Ikeja", "state": "Lagos", "slug": "ikeja-lagos"}
+  },
+  {
+    "model": "properties.location",
+    "pk": 4,
+    "fields": {"name": "Ikoyi", "state": "Lagos", "slug": "ikoyi-lagos"}
+  },
+  {
+    "model": "properties.location",
+    "pk": 5,
+    "fields": {"name": "Ajah", "state": "Lagos", "slug": "ajah-lagos"}
+  },
+  {
+    "model": "properties.location",
+    "pk": 6,
+    "fields": {"name": "Abuja", "state": "FCT", "slug": "abuja-fct"}
+  },
+  {
+    "model": "properties.property",
+    "pk": 1,
+    "fields": {
+      "title": "Prime Land in Lekki Phase 1 - 500sqm",
+      "slug": "prime-land-lekki-phase-1-500sqm",
+      "description": "A premium dry land in the heart of Lekki Phase 1. Fully fenced and gated. C of O available. Excellent for residential or commercial development. Very close to major amenities and arterial roads.",
+      "price": "85000000.00",
+      "location": 1,
+      "address": "Lekki Phase 1, Lagos",
+      "property_type": "land",
+      "status": "available",
+      "bedrooms": 0,
+      "bathrooms": 0,
+      "toilets": 0,
+      "size_sqm": "500.00",
+      "is_featured": true,
+      "is_negotiable": true,
+      "meta_description": "Prime 500sqm dry land for sale in Lekki Phase 1, Lagos. C of O available. Price: ₦85,000,000.",
+      "date_listed": "2024-01-15T10:00:00Z",
+      "date_updated": "2024-01-15T10:00:00Z",
+      "listed_by": null,
+      "has_parking": false, "has_security": false, "has_pool": false, "has_gym": false, "has_generator": false, "has_water_supply": false, "has_cctv": false, "is_serviced": false
+    }
+  },
+  {
+    "model": "properties.property",
+    "pk": 2,
+    "fields": {
+      "title": "Luxury 4-Bedroom Duplex in Victoria Island",
+      "slug": "luxury-4-bedroom-duplex-victoria-island",
+      "description": "A stunning fully detached 4-bedroom duplex with a BQ in the prestigious Victoria Island. Features include: spacious living areas, fitted kitchen, en-suite bedrooms, 24/7 security, swimming pool, CCTV, and a boys' quarters.",
+      "price": "250000000.00",
+      "location": 2,
+      "address": "Victoria Island, Lagos",
+      "property_type": "duplex",
+      "status": "available",
+      "bedrooms": 4,
+      "bathrooms": 4,
+      "toilets": 5,
+      "size_sqm": "350.00",
+      "is_featured": true,
+      "is_negotiable": false,
+      "meta_description": "Luxury 4-bedroom fully detached duplex for sale in Victoria Island, Lagos. ₦250,000,000.",
+      "date_listed": "2024-01-20T10:00:00Z",
+      "date_updated": "2024-01-20T10:00:00Z",
+      "listed_by": null,
+      "has_parking": true, "has_security": true, "has_pool": true, "has_gym": false, "has_generator": true, "has_water_supply": true, "has_cctv": true, "is_serviced": true
+    }
+  },
+  {
+    "model": "properties.property",
+    "pk": 3,
+    "fields": {
+      "title": "Modern 3-Bedroom Apartment in Ikoyi",
+      "slug": "modern-3-bedroom-apartment-ikoyi",
+      "description": "A beautifully finished 3-bedroom serviced apartment in the serene Ikoyi neighborhood. Comes with 24/7 electricity, water supply, security and dedicated parking. Perfect for executives and diplomats.",
+      "price": "120000000.00",
+      "location": 4,
+      "address": "Bourdillon Road, Ikoyi, Lagos",
+      "property_type": "apartment",
+      "status": "available",
+      "bedrooms": 3,
+      "bathrooms": 3,
+      "toilets": 3,
+      "size_sqm": "180.00",
+      "is_featured": true,
+      "is_negotiable": true,
+      "meta_description": "Modern 3-bedroom serviced apartment for sale in Ikoyi, Lagos. ₦120,000,000.",
+      "date_listed": "2024-02-01T10:00:00Z",
+      "date_updated": "2024-02-01T10:00:00Z",
+      "listed_by": null,
+      "has_parking": true, "has_security": true, "has_pool": false, "has_gym": true, "has_generator": true, "has_water_supply": true, "has_cctv": true, "is_serviced": true
+    }
+  },
+  {
+    "model": "properties.property",
+    "pk": 4,
+    "fields": {
+      "title": "Commercial Plaza in Ikeja GRA",
+      "slug": "commercial-plaza-ikeja-gra",
+      "description": "A fully built commercial plaza with 8 shop units on the ground floor and 4 office suites on the first floor. Located on a very busy road in Ikeja GRA. Excellent for investment.",
+      "price": "450000000.00",
+      "location": 3,
+      "address": "Ikeja GRA, Lagos",
+      "property_type": "commercial",
+      "status": "available",
+      "bedrooms": 0,
+      "bathrooms": 0,
+      "toilets": 4,
+      "size_sqm": "600.00",
+      "is_featured": false,
+      "is_negotiable": true,
+      "meta_description": "Commercial plaza for sale in Ikeja GRA, Lagos. 8 shops + 4 offices. ₦450,000,000.",
+      "date_listed": "2024-02-10T10:00:00Z",
+      "date_updated": "2024-02-10T10:00:00Z",
+      "listed_by": null,
+      "has_parking": true, "has_security": true, "has_pool": false, "has_gym": false, "has_generator": true, "has_water_supply": true, "has_cctv": true, "is_serviced": false
+    }
+  },
+  {
+    "model": "properties.property",
+    "pk": 5,
+    "fields": {
+      "title": "Affordable Land in Ajah - 300sqm",
+      "slug": "affordable-land-ajah-300sqm",
+      "description": "A well-located dry land in Ajah, very close to the Lekki-Epe Expressway. Survey plan available. Suitable for residential development. Good road access and developing neighborhood.",
+      "price": "18000000.00",
+      "location": 5,
+      "address": "Ajah, Lagos",
+      "property_type": "land",
+      "status": "available",
+      "bedrooms": 0,
+      "bathrooms": 0,
+      "toilets": 0,
+      "size_sqm": "300.00",
+      "is_featured": false,
+      "is_negotiable": true,
+      "meta_description": "300sqm dry land for sale in Ajah, Lagos. Survey plan available. ₦18,000,000.",
+      "date_listed": "2024-02-15T10:00:00Z",
+      "date_updated": "2024-02-15T10:00:00Z",
+      "listed_by": null,
+      "has_parking": false, "has_security": false, "has_pool": false, "has_gym": false, "has_generator": false, "has_water_supply": false, "has_cctv": false, "is_serviced": false
+    }
+  },
+  {
+    "model": "properties.property",
+    "pk": 6,
+    "fields": {
+      "title": "Executive Mansion in Abuja Asokoro",
+      "slug": "executive-mansion-abuja-asokoro",
+      "description": "A palatial 6-bedroom mansion in the exclusive Asokoro district of Abuja. Features include: cinema room, gym, swimming pool, 4 lounges, domestic quarters, large compound and exceptional finishing throughout.",
+      "price": "800000000.00",
+      "location": 6,
+      "address": "Asokoro, Abuja, FCT",
+      "property_type": "mansion",
+      "status": "pending",
+      "bedrooms": 6,
+      "bathrooms": 6,
+      "toilets": 8,
+      "size_sqm": "1200.00",
+      "is_featured": true,
+      "is_negotiable": false,
+      "meta_description": "Executive 6-bedroom mansion for sale in Asokoro, Abuja. ₦800,000,000.",
+      "date_listed": "2024-03-01T10:00:00Z",
+      "date_updated": "2024-03-01T10:00:00Z",
+      "listed_by": null,
+      "has_parking": true, "has_security": true, "has_pool": true, "has_gym": true, "has_generator": true, "has_water_supply": true, "has_cctv": true, "is_serviced": true
+    }
+  },
+  {
+    "model": "properties.testimonial",
+    "pk": 1,
+    "fields": {
+      "name": "Adebayo Okonkwo",
+      "role": "Property Investor",
+      "content": "Defola's Properties made my property investment journey incredibly smooth. Their team was professional, knowledgeable and always available. I bought my Lekki land through them and I couldn't be happier.",
+      "rating": 5,
+      "photo": null,
+      "is_active": true,
+      "created_at": "2024-01-10T10:00:00Z"
+    }
+  },
+  {
+    "model": "properties.testimonial",
+    "pk": 2,
+    "fields": {
+      "name": "Chidinma Eze",
+      "role": "First-time Homebuyer",
+      "content": "I was nervous buying my first property but the team at Defola's made the process so easy. They found me the perfect 3-bedroom apartment within my budget. Highly recommended!",
+      "rating": 5,
+      "photo": null,
+      "is_active": true,
+      "created_at": "2024-01-20T10:00:00Z"
+    }
+  },
+  {
+    "model": "properties.testimonial",
+    "pk": 3,
+    "fields": {
+      "name": "Emeka Nwosu",
+      "role": "Business Owner",
+      "content": "We purchased a commercial plaza through Defola's Properties for our business. The transaction was transparent, fast and hassle-free. Their legal support was exceptional.",
+      "rating": 5,
+      "photo": null,
+      "is_active": true,
+      "created_at": "2024-02-05T10:00:00Z"
+    }
+  },
+  {
+    "model": "core.teammember",
+    "pk": 1,
+    "fields": {
+      "name": "Defola Adeyemi",
+      "role": "Founder & CEO",
+      "bio": "With over 15 years in Nigerian real estate, Defola leads the company with vision and integrity.",
+      "photo": null,
+      "email": "defola@defolasproperties.com",
+      "phone": "+2348000000001",
+      "whatsapp": "+2348000000001",
+      "order": 1,
+      "is_active": true
+    }
+  },
+  {
+    "model": "core.teammember",
+    "pk": 2,
+    "fields": {
+      "name": "Tunde Afolabi",
+      "role": "Head of Sales",
+      "bio": "Tunde has closed over 200 property deals and is renowned for his client-first approach.",
+      "photo": null,
+      "email": "tunde@defolasproperties.com",
+      "phone": "+2348000000002",
+      "whatsapp": "+2348000000002",
+      "order": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "core.teammember",
+    "pk": 3,
+    "fields": {
+      "name": "Amaka Obi",
+      "role": "Legal & Documentation",
+      "bio": "Amaka ensures every transaction is legally sound and all documentation is perfect.",
+      "photo": null,
+      "email": "amaka@defolasproperties.com",
+      "phone": "+2348000000003",
+      "whatsapp": "+2348000000003",
+      "order": 3,
+      "is_active": true
+    }
+  },
+  {
+    "model": "core.teammember",
+    "pk": 4,
+    "fields": {
+      "name": "Segun Badmus",
+      "role": "Property Inspector",
+      "bio": "Segun leads all site inspections and due diligence, ensuring every listing meets our standards.",
+      "photo": null,
+      "email": "segun@defolasproperties.com",
+      "phone": "+2348000000004",
+      "whatsapp": "+2348000000004",
+      "order": 4,
+      "is_active": true
+    }
+  }
+]

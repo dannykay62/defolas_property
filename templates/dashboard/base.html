@@ -1,0 +1,150 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}Dashboard{% endblock %} — Defola's Properties</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            teal: { 50:'#f0fdfa',100:'#ccfbf1',200:'#99f6e4',300:'#5eead4',400:'#2dd4bf',500:'#14b8a6',600:'#0d9488',700:'#0f766e',800:'#115e59',900:'#134e4a' }
+          },
+          fontFamily: { sans: ['Plus Jakarta Sans','system-ui','sans-serif'] }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <style>
+    body { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; }
+    .sidebar-link { @apply flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium transition-all; }
+    .active-link { background: rgba(20,184,166,0.15); color: #14b8a6; }
+    .nav-link { color: #94a3b8; }
+    .nav-link:hover { background: rgba(255,255,255,0.05); color: #e2e8f0; }
+  </style>
+  {% block extra_head %}{% endblock %}
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+<div class="flex h-screen overflow-hidden">
+
+  <!-- ===== SIDEBAR ===== -->
+  <aside id="sidebar" class="w-64 bg-gray-900 flex flex-col flex-shrink-0 transition-all duration-300 z-30">
+    <!-- Logo -->
+    <div class="px-6 py-5 border-b border-gray-800">
+      <a href="{% url 'dashboard:home' %}" class="flex items-center gap-3">
+        <div class="w-9 h-9 bg-gradient-to-br from-teal-500 to-teal-700 rounded-xl flex items-center justify-center flex-shrink-0">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M3 9.5L12 3L21 9.5V20C21 20.55 20.55 21 20 21H15V15H9V21H4C3.45 21 3 20.55 3 20V9.5Z" fill="white"/></svg>
+        </div>
+        <div>
+          <div class="text-white font-bold text-sm leading-tight">Defola's</div>
+          <div class="text-teal-400 text-xs tracking-wider">PROPERTIES</div>
+        </div>
+      </a>
+    </div>
+
+    <!-- Nav -->
+    <nav class="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
+      <p class="text-gray-600 text-xs font-semibold uppercase tracking-wider px-4 mb-2">Main</p>
+
+      <a href="{% url 'dashboard:home' %}" class="sidebar-link {% if request.resolver_match.url_name == 'home' %}active-link{% else %}nav-link{% endif %}">
+        <i data-lucide="layout-dashboard" class="w-4 h-4 flex-shrink-0"></i> Overview
+      </a>
+      <a href="{% url 'dashboard:properties' %}" class="sidebar-link {% if 'properties' in request.resolver_match.url_name %}active-link{% else %}nav-link{% endif %}">
+        <i data-lucide="home" class="w-4 h-4 flex-shrink-0"></i> Properties
+        <span class="ml-auto bg-teal-500/20 text-teal-400 text-xs px-2 py-0.5 rounded-full">{{ total_properties }}</span>
+      </a>
+      <a href="{% url 'dashboard:inquiries' %}" class="sidebar-link {% if 'inquiries' in request.resolver_match.url_name %}active-link{% else %}nav-link{% endif %}">
+        <i data-lucide="message-circle" class="w-4 h-4 flex-shrink-0"></i> Inquiries
+        {% if new_inquiries_count %}<span class="ml-auto bg-red-500 text-white text-xs px-2 py-0.5 rounded-full">{{ new_inquiries_count }}</span>{% endif %}
+      </a>
+      <a href="{% url 'dashboard:add_property' %}" class="sidebar-link {% if request.resolver_match.url_name == 'add_property' %}active-link{% else %}nav-link{% endif %}">
+        <i data-lucide="plus-circle" class="w-4 h-4 flex-shrink-0"></i> Add Property
+      </a>
+
+      <p class="text-gray-600 text-xs font-semibold uppercase tracking-wider px-4 mt-5 mb-2">Manage</p>
+      <a href="{% url 'dashboard:locations' %}" class="sidebar-link {% if 'location' in request.resolver_match.url_name %}active-link{% else %}nav-link{% endif %}">
+        <i data-lucide="map-pin" class="w-4 h-4 flex-shrink-0"></i> Locations
+      </a>
+      <a href="{% url 'dashboard:testimonials' %}" class="sidebar-link {% if 'testimonial' in request.resolver_match.url_name %}active-link{% else %}nav-link{% endif %}">
+        <i data-lucide="star" class="w-4 h-4 flex-shrink-0"></i> Testimonials
+      </a>
+      <a href="{% url 'dashboard:team' %}" class="sidebar-link {% if 'team' in request.resolver_match.url_name %}active-link{% else %}nav-link{% endif %}">
+        <i data-lucide="users" class="w-4 h-4 flex-shrink-0"></i> Team Members
+      </a>
+
+      <p class="text-gray-600 text-xs font-semibold uppercase tracking-wider px-4 mt-5 mb-2">Site</p>
+      <a href="{% url 'core:home' %}" target="_blank" class="sidebar-link nav-link">
+        <i data-lucide="external-link" class="w-4 h-4 flex-shrink-0"></i> View Website
+      </a>
+      <a href="/admin/" class="sidebar-link nav-link">
+        <i data-lucide="settings" class="w-4 h-4 flex-shrink-0"></i> Django Admin
+      </a>
+    </nav>
+
+    <!-- User -->
+    <div class="px-4 py-4 border-t border-gray-800">
+      <div class="flex items-center gap-3">
+        <div class="w-8 h-8 bg-teal-600 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
+          {{ request.user.first_name|first|default:request.user.username|first|upper }}
+        </div>
+        <div class="min-w-0">
+          <div class="text-white text-sm font-medium truncate">{{ request.user.get_full_name|default:request.user.username }}</div>
+          <div class="text-gray-500 text-xs">Administrator</div>
+        </div>
+        <a href="{% url 'accounts:logout' %}" class="ml-auto text-gray-500 hover:text-red-400 transition-colors flex-shrink-0" title="Logout">
+          <i data-lucide="log-out" class="w-4 h-4"></i>
+        </a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ===== MAIN ===== -->
+  <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+
+    <!-- Top Bar -->
+    <header class="bg-white border-b border-gray-200 px-6 py-4 flex items-center gap-4 flex-shrink-0">
+      <button id="sidebar-toggle" class="text-gray-500 hover:text-gray-700 lg:hidden">
+        <i data-lucide="menu" class="w-5 h-5"></i>
+      </button>
+      <div>
+        <h1 class="text-lg font-bold text-gray-900">{% block page_title %}Dashboard{% endblock %}</h1>
+        <p class="text-xs text-gray-500">{% block page_subtitle %}Welcome back, {{ request.user.first_name|default:request.user.username }}{% endblock %}</p>
+      </div>
+      <div class="ml-auto flex items-center gap-3">
+        {% if messages %}
+        {% for message in messages %}
+        <div class="text-sm px-4 py-2 rounded-xl {% if message.tags == 'success' %}bg-emerald-50 text-emerald-700{% else %}bg-red-50 text-red-700{% endif %}">
+          {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+        <a href="{% url 'dashboard:add_property' %}" class="flex items-center gap-2 px-4 py-2 bg-teal-600 hover:bg-teal-500 text-white rounded-xl text-sm font-semibold transition-colors">
+          <i data-lucide="plus" class="w-4 h-4"></i> Add Property
+        </a>
+      </div>
+    </header>
+
+    <!-- Content -->
+    <main class="flex-1 overflow-y-auto p-6">
+      {% block content %}{% endblock %}
+    </main>
+  </div>
+</div>
+
+<script>
+  lucide.createIcons();
+  document.getElementById('sidebar-toggle')?.addEventListener('click', () => {
+    document.getElementById('sidebar').classList.toggle('hidden');
+  });
+</script>
+{% block extra_js %}{% endblock %}
+</body>
+</html>

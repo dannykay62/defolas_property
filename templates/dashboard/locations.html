@@ -1,0 +1,64 @@
+{% extends 'dashboard/base.html' %}
+{% block title %}Locations{% endblock %}
+{% block page_title %}Locations{% endblock %}
+{% block page_subtitle %}Manage property locations across Nigeria{% endblock %}
+
+{% block content %}
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+  <!-- Add Form -->
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 h-fit">
+    <h3 class="font-semibold text-gray-900 mb-5 flex items-center gap-2">
+      <i data-lucide="plus-circle" class="w-4 h-4 text-teal-600"></i> Add New Location
+    </h3>
+    <form method="post" class="space-y-4">
+      {% csrf_token %}
+      <div>
+        <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">Area / City *</label>
+        <input type="text" name="name" required placeholder="e.g. Lekki" class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-transparent text-sm" />
+      </div>
+      <div>
+        <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">State *</label>
+        <input type="text" name="state" required placeholder="e.g. Lagos" class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-transparent text-sm" />
+      </div>
+      <button type="submit" class="w-full py-3 bg-teal-600 hover:bg-teal-500 text-white rounded-xl font-semibold text-sm transition-colors flex items-center justify-center gap-2">
+        <i data-lucide="plus" class="w-4 h-4"></i> Add Location
+      </button>
+    </form>
+  </div>
+
+  <!-- Locations Table -->
+  <div class="lg:col-span-2 bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+    <div class="px-6 py-4 border-b border-gray-100">
+      <h3 class="font-semibold text-gray-900">All Locations ({{ locations.count }})</h3>
+    </div>
+    <div class="divide-y divide-gray-50">
+      {% for loc in locations %}
+      <div class="flex items-center gap-4 px-6 py-4 hover:bg-gray-50 transition-colors">
+        <div class="w-9 h-9 bg-teal-50 rounded-xl flex items-center justify-center flex-shrink-0">
+          <i data-lucide="map-pin" class="w-4 h-4 text-teal-600"></i>
+        </div>
+        <div class="flex-1">
+          <div class="font-medium text-gray-900">{{ loc.name }}</div>
+          <div class="text-xs text-gray-500">{{ loc.state }}</div>
+        </div>
+        <div class="text-sm text-gray-500 flex-shrink-0">
+          <span class="font-semibold text-gray-900">{{ loc.prop_count }}</span> propert{{ loc.prop_count|pluralize:"y,ies" }}
+        </div>
+        <form method="post" action="{% url 'dashboard:delete_location' loc.pk %}" onsubmit="return confirm('Delete {{ loc.name }}?')">
+          {% csrf_token %}
+          <button type="submit" class="p-2 text-gray-300 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors" title="Delete">
+            <i data-lucide="trash-2" class="w-4 h-4"></i>
+          </button>
+        </form>
+      </div>
+      {% empty %}
+      <div class="px-6 py-12 text-center text-gray-400">
+        <i data-lucide="map-pin" class="w-10 h-10 mx-auto mb-3 opacity-30"></i>
+        <p class="text-sm">No locations yet. Add one using the form.</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}

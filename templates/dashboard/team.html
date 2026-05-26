@@ -1,0 +1,53 @@
+{% extends 'dashboard/base.html' %}
+{% block title %}Team Members{% endblock %}
+{% block page_title %}Team Members{% endblock %}
+{% block page_subtitle %}Manage your team displayed on the About page{% endblock %}
+
+{% block content %}
+<div class="mb-4 flex justify-end">
+  <a href="/admin/core/teammember/add/" class="flex items-center gap-2 px-4 py-2.5 bg-teal-600 hover:bg-teal-500 text-white rounded-xl text-sm font-semibold transition-colors">
+    <i data-lucide="plus" class="w-4 h-4"></i> Add Team Member
+  </a>
+</div>
+
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+  {% for member in members %}
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden {% if not member.is_active %}opacity-60{% endif %}">
+    {% if member.photo %}
+    <img src="{{ member.photo.url }}" class="w-full h-40 object-cover object-top" />
+    {% else %}
+    <div class="w-full h-40 bg-gradient-to-br from-teal-100 to-teal-200 flex items-center justify-center">
+      <div class="w-16 h-16 bg-teal-500 rounded-full flex items-center justify-center text-white font-bold text-2xl">{{ member.name|first }}</div>
+    </div>
+    {% endif %}
+    <div class="p-4">
+      <div class="font-semibold text-gray-900">{{ member.name }}</div>
+      <div class="text-xs text-teal-600 font-medium mb-3">{{ member.role }}</div>
+      <div class="flex gap-2">
+        <form method="post" class="flex-1">
+          {% csrf_token %}
+          <input type="hidden" name="action" value="toggle" />
+          <input type="hidden" name="pk" value="{{ member.pk }}" />
+          <button type="submit" class="w-full py-1.5 text-xs font-semibold rounded-lg transition-colors {% if member.is_active %}bg-gray-100 text-gray-600 hover:bg-gray-200{% else %}bg-teal-50 text-teal-600 hover:bg-teal-100{% endif %}">
+            {% if member.is_active %}Hide{% else %}Show{% endif %}
+          </button>
+        </form>
+        <a href="/admin/core/teammember/{{ member.pk }}/change/" class="py-1.5 px-3 bg-blue-50 text-blue-600 hover:bg-blue-100 rounded-lg text-xs font-semibold transition-colors">Edit</a>
+        <form method="post" onsubmit="return confirm('Delete {{ member.name }}?')">
+          {% csrf_token %}
+          <input type="hidden" name="action" value="delete" />
+          <input type="hidden" name="pk" value="{{ member.pk }}" />
+          <button type="submit" class="py-1.5 px-3 bg-red-50 text-red-500 hover:bg-red-100 rounded-lg text-xs font-semibold transition-colors">Del</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  {% empty %}
+  <div class="col-span-4 py-16 text-center bg-white rounded-2xl border border-gray-100">
+    <i data-lucide="users" class="w-12 h-12 mx-auto text-gray-200 mb-3"></i>
+    <p class="text-gray-400 mb-4">No team members yet.</p>
+    <a href="/admin/core/teammember/add/" class="inline-flex items-center gap-2 px-5 py-2.5 bg-teal-600 text-white rounded-xl text-sm font-semibold hover:bg-teal-500 transition-colors">Add First Member</a>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

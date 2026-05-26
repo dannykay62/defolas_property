@@ -1,0 +1,50 @@
+{% extends 'dashboard/base.html' %}
+{% block title %}Testimonials{% endblock %}
+{% block page_title %}Testimonials{% endblock %}
+{% block page_subtitle %}Manage client reviews and testimonials{% endblock %}
+
+{% block content %}
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+  {% for t in testimonials %}
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 {% if not t.is_active %}opacity-60{% endif %}">
+    <div class="flex items-start justify-between mb-3">
+      <div class="flex items-center gap-3">
+        {% if t.photo %}
+        <img src="{{ t.photo.url }}" class="w-10 h-10 rounded-full object-cover" />
+        {% else %}
+        <div class="w-10 h-10 bg-teal-100 rounded-full flex items-center justify-center text-teal-700 font-bold">{{ t.name|first }}</div>
+        {% endif %}
+        <div>
+          <div class="font-semibold text-gray-900 text-sm">{{ t.name }}</div>
+          <div class="text-xs text-gray-500">{{ t.role }}</div>
+        </div>
+      </div>
+      <div class="text-amber-400 text-sm">{% for i in "12345" %}{% if forloop.counter <= t.rating %}★{% else %}☆{% endif %}{% endfor %}</div>
+    </div>
+    <p class="text-gray-600 text-sm leading-relaxed mb-4">"{{ t.content|truncatechars:120 }}"</p>
+    <div class="flex gap-2 pt-3 border-t border-gray-100">
+      <form method="post" class="flex-1">
+        {% csrf_token %}
+        <input type="hidden" name="action" value="toggle" />
+        <input type="hidden" name="pk" value="{{ t.pk }}" />
+        <button type="submit" class="w-full py-2 text-xs font-semibold rounded-lg transition-colors {% if t.is_active %}bg-gray-100 text-gray-600 hover:bg-gray-200{% else %}bg-teal-50 text-teal-600 hover:bg-teal-100{% endif %}">
+          {% if t.is_active %}Hide{% else %}Show{% endif %}
+        </button>
+      </form>
+      <form method="post" onsubmit="return confirm('Delete this testimonial?')">
+        {% csrf_token %}
+        <input type="hidden" name="action" value="delete" />
+        <input type="hidden" name="pk" value="{{ t.pk }}" />
+        <button type="submit" class="py-2 px-3 bg-red-50 text-red-500 hover:bg-red-100 rounded-lg text-xs font-semibold transition-colors">Delete</button>
+      </form>
+    </div>
+  </div>
+  {% empty %}
+  <div class="col-span-3 py-16 text-center bg-white rounded-2xl border border-gray-100">
+    <i data-lucide="star" class="w-12 h-12 mx-auto text-gray-200 mb-3"></i>
+    <p class="text-gray-400">No testimonials yet. Add them via Django Admin.</p>
+    <a href="/admin/properties/testimonial/add/" class="inline-flex mt-4 items-center gap-2 px-5 py-2.5 bg-teal-600 text-white rounded-xl text-sm font-semibold hover:bg-teal-500 transition-colors">Add Testimonial</a>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

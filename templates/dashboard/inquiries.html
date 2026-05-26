@@ -1,0 +1,94 @@
+{% extends 'dashboard/base.html' %}
+
+{% block title %}Inquiries{% endblock %}
+{% block page_title %}Inquiries{% endblock %}
+{% block page_subtitle %}Manage all customer inquiries and leads{% endblock %}
+
+{% block content %}
+
+<!-- Filter tabs -->
+<div class="flex gap-2 mb-6 flex-wrap">
+  <a href="{% url 'dashboard:inquiries' %}" class="px-4 py-2 rounded-xl text-sm font-semibold transition-colors {% if not status_filter %}bg-teal-600 text-white{% else %}bg-white text-gray-600 border border-gray-200 hover:border-teal-300{% endif %}">All</a>
+  <a href="?status=new" class="px-4 py-2 rounded-xl text-sm font-semibold transition-colors flex items-center gap-2 {% if status_filter == 'new' %}bg-teal-600 text-white{% else %}bg-white text-gray-600 border border-gray-200 hover:border-teal-300{% endif %}">
+    New {% if new_inquiries_count %}<span class="{% if status_filter == 'new' %}bg-white text-teal-600{% else %}bg-red-500 text-white{% endif %} text-xs px-1.5 py-0.5 rounded-full">{{ new_inquiries_count }}</span>{% endif %}
+  </a>
+  <a href="?status=in_progress" class="px-4 py-2 rounded-xl text-sm font-semibold transition-colors {% if status_filter == 'in_progress' %}bg-teal-600 text-white{% else %}bg-white text-gray-600 border border-gray-200 hover:border-teal-300{% endif %}">In Progress</a>
+  <a href="?status=resolved" class="px-4 py-2 rounded-xl text-sm font-semibold transition-colors {% if status_filter == 'resolved' %}bg-teal-600 text-white{% else %}bg-white text-gray-600 border border-gray-200 hover:border-teal-300{% endif %}">Resolved</a>
+</div>
+
+<!-- Table -->
+<div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+  <div class="overflow-x-auto">
+    <table class="w-full text-sm">
+      <thead>
+        <tr class="bg-gray-50 border-b border-gray-100">
+          <th class="text-left px-5 py-3.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">Contact</th>
+          <th class="text-left px-4 py-3.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">Property</th>
+          <th class="text-left px-4 py-3.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">Type</th>
+          <th class="text-left px-4 py-3.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">Status</th>
+          <th class="text-left px-4 py-3.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">Date</th>
+          <th class="text-right px-5 py-3.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">Actions</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-50">
+        {% for inquiry in inquiries %}
+        <tr class="hover:bg-gray-50 transition-colors {% if inquiry.status == 'new' %}bg-blue-50/30{% endif %}">
+          <td class="px-5 py-4">
+            <div class="flex items-center gap-3">
+              <div class="w-9 h-9 bg-teal-100 rounded-full flex items-center justify-center text-teal-700 font-bold text-sm flex-shrink-0">
+                {{ inquiry.name|first|upper }}
+              </div>
+              <div>
+                <div class="font-medium text-gray-900">{{ inquiry.name }}</div>
+                <a href="tel:{{ inquiry.phone }}" class="text-xs text-teal-600 hover:underline">{{ inquiry.phone }}</a>
+              </div>
+            </div>
+          </td>
+          <td class="px-4 py-4">
+            {% if inquiry.property %}
+            <a href="{{ inquiry.property.get_absolute_url }}" target="_blank" class="text-sm text-gray-700 hover:text-teal-600 transition-colors truncate max-w-xs block">
+              {{ inquiry.property.title|truncatechars:35 }}
+            </a>
+            {% else %}
+            <span class="text-gray-400 text-sm">General Inquiry</span>
+            {% endif %}
+          </td>
+          <td class="px-4 py-4">
+            <span class="px-2.5 py-1 bg-gray-100 text-gray-600 rounded-lg text-xs font-medium capitalize">{{ inquiry.get_inquiry_type_display }}</span>
+          </td>
+          <td class="px-4 py-4">
+            <span class="px-2.5 py-1 rounded-full text-xs font-semibold
+              {% if inquiry.status == 'new' %}bg-blue-100 text-blue-700
+              {% elif inquiry.status == 'in_progress' %}bg-amber-100 text-amber-700
+              {% else %}bg-emerald-100 text-emerald-700{% endif %}">
+              {{ inquiry.get_status_display }}
+            </span>
+          </td>
+          <td class="px-4 py-4 text-gray-400 text-xs whitespace-nowrap">{{ inquiry.created_at|date:"d M Y" }}</td>
+          <td class="px-5 py-4">
+            <div class="flex items-center justify-end gap-2">
+              <a href="{% url 'dashboard:inquiry_detail' inquiry.pk %}" class="p-2 text-gray-400 hover:text-teal-600 hover:bg-teal-50 rounded-lg transition-colors" title="View">
+                <i data-lucide="eye" class="w-4 h-4"></i>
+              </a>
+              <a href="tel:{{ inquiry.phone }}" class="p-2 text-gray-400 hover:text-green-600 hover:bg-green-50 rounded-lg transition-colors" title="Call">
+                <i data-lucide="phone" class="w-4 h-4"></i>
+              </a>
+              <a href="https://wa.me/{{ inquiry.phone }}" target="_blank" class="p-2 text-gray-400 hover:text-green-600 hover:bg-green-50 rounded-lg transition-colors" title="WhatsApp">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12c0 2.125.557 4.126 1.532 5.862L0 24l6.302-1.654A11.94 11.94 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0"/></svg>
+              </a>
+            </div>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="6" class="px-6 py-16 text-center">
+            <i data-lucide="message-circle" class="w-12 h-12 mx-auto text-gray-200 mb-3"></i>
+            <p class="text-gray-400">No inquiries yet</p>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

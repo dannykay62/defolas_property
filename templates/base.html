@@ -9,6 +9,15 @@
   <title>{% block title %}{{ page_title|default:"Defola's Properties" }}{% endblock %}</title>
   <meta name="description" content="{% block meta_description %}{{ meta_description|default:"Defola's Properties - Premium Real Estate in Nigeria." }}{% endblock %}" />
   <link rel="canonical" href="{{ request.build_absolute_uri }}" />
+  <link rel="manifest" href="{% static 'site.webmanifest' %}">
+  <link rel="icon" type="image/png" href="{% static 'images/favicon.ico' %}">
+  <link rel="icon" type="image/png" href="{% static 'images/favicon-16x16.png' %}">
+  <link rel="icon" type="image/png" href="{% static 'images/favicon-32x32.png' %}">
+  <link rel="icon" type="image/png" href="{% static 'images/android-chrome-192x192.png' %}">
+  <link rel="icon" type="image/png" href="{% static 'images/android-chrome-512x512.png' %}">
+  <link rel="apple-touch-icon" href="{% static 'images/apple-touch-icon.png' %}">
+  <meta name="theme-color" content="#0f766e">
+
   <meta property="og:type" content="website" />
   <meta property="og:url" content="{{ request.build_absolute_uri }}" />
   <meta property="og:title" content="{% block og_title %}{{ page_title|default:"Defola's Properties" }}{% endblock %}" />
@@ -59,23 +68,16 @@
   <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 bg-white transition-all duration-300 border-b border-gray-100">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-16 lg:h-20">
-        <a href="{% url 'core:home' %}" class="flex items-center gap-3 group">
-          <div class="w-10 h-10 bg-gradient-to-br from-teal-500 to-teal-700 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 9.5L12 3L21 9.5V20C21 20.55 20.55 21 20 21H15V15H9V21H4C3.45 21 3 20.55 3 20V9.5Z" fill="white" opacity=".9"/></svg>
-          </div>
-
-          <!-- <div class="w-10 h-10 rounded-xl overflow-hidden shadow-lg group-hover:scale-105 transition-transform">
-            <img 
-              src="{% static 'images/logo.jpg' %}" 
-              alt="Defola's Properties Logo"
-              class="w-full h-full object-cover"
-            >
-          </div> -->
-          <div class="leading-tight">
-            <div class="font-display text-lg font-bold text-teal-700">Defola's</div>
-            <div class="text-xs font-semibold text-gray-500 tracking-widest uppercase -mt-0.5">Properties</div>
-          </div>
-        </a>
+        <div class="h-16 flex items-center">
+          <a href="{% url 'core:home' %}" class="flex items-center">
+            <img
+            src="{% static 'images/defolas_logo.png' %}"
+            alt="Defola's Properties Logo"
+            class="h-16 w-auto object-contain"
+          >
+          </a>
+          
+        </div>
         <div class="hidden lg:flex items-center gap-8">
           <a href="{% url 'core:home' %}" class="text-sm font-medium text-gray-600 hover:text-teal-600 transition-colors">Home</a>
           <a href="{% url 'properties:list' %}" class="text-sm font-medium text-gray-600 hover:text-teal-600 transition-colors">Properties</a>
@@ -91,7 +93,7 @@
             WhatsApp
           </a>
           {% if user.is_authenticated %}
-          <a href="{% url 'accounts:dashboard' %}" class="flex items-center gap-2 px-4 py-2.5 border border-gray-200 rounded-xl text-sm font-medium hover:border-teal-300 transition-colors">
+          <a href="{% url 'dashboard:home' %}" class="flex items-center gap-2 px-4 py-2.5 border border-gray-200 rounded-xl text-sm font-medium hover:border-teal-300 transition-colors">
             <i data-lucide="user" class="w-4 h-4 text-teal-600"></i> Dashboard
           </a>
           {% endif %}
@@ -138,21 +140,42 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
         <div>
-          <div class="flex items-center gap-3 mb-5">
-            <div class="w-10 h-10 bg-gradient-to-br from-teal-500 to-teal-700 rounded-xl flex items-center justify-center">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3 9.5L12 3L21 9.5V20C21 20.55 20.55 21 20 21H15V15H9V21H4C3.45 21 3 20.55 3 20V9.5Z" fill="white" opacity=".9"/></svg>
-            </div>
-            <div>
-              <div class="font-display text-lg font-bold text-white">Defola's Properties</div>
-              <div class="text-xs text-teal-400 tracking-widest uppercase">Premium Real Estate</div>
-            </div>
-          </div>
+          <div class="h-16 flex items-center">
+          <img
+            src="{% static 'images/defolas_logo.png' %}"
+            alt="Defola's Properties Logo"
+            class="h-16 w-auto object-contain"
+          >
+        </div>
           <p class="text-sm text-gray-400 leading-relaxed mb-5">Your trusted real estate partner in Nigeria. We connect you with premium properties across Lagos and beyond.</p>
           <div class="flex gap-3">
-            <a href="#" class="w-9 h-9 bg-gray-800 hover:bg-teal-600 rounded-lg flex items-center justify-center transition-colors"><i data-lucide="facebook" class="w-4 h-4"></i></a>
-            <a href="#" class="w-9 h-9 bg-gray-800 hover:bg-teal-600 rounded-lg flex items-center justify-center transition-colors"><i data-lucide="instagram" class="w-4 h-4"></i></a>
-            <a href="#" class="w-9 h-9 bg-gray-800 hover:bg-teal-600 rounded-lg flex items-center justify-center transition-colors"><i data-lucide="twitter" class="w-4 h-4"></i></a>
-          </div>
+            <!-- Facebook -->
+            <a href="https://facebook.com/"
+               target="_blank"
+               class="w-9 h-9 bg-gray-800 hover:bg-blue-600 rounded-lg flex items-center justify-center transition-colors">
+                <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                    <path d="M22 12A10 10 0 1 0 10.4 21.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.8 3.7-3.8 1.1 0 2.2.2 2.2.2v2.4h-1.2c-1.2 0-1.6.8-1.6 1.5V12h2.8l-.4 2.9h-2.4v7A10 10 0 0 0 22 12z"/>
+                </svg>
+            </a>
+          
+            <!-- Instagram -->
+            <a href="https://instagram.com/"
+               target="_blank"
+               class="w-9 h-9 bg-gray-800 hover:bg-pink-600 rounded-lg flex items-center justify-center transition-colors">
+                <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                    <path d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm10 2a1 1 0 110 2 1 1 0 010-2zm-5 2.5A5.5 5.5 0 1112 17.5 5.5 5.5 0 0112 6.5zm0 2A3.5 3.5 0 1015.5 12 3.5 3.5 0 0012 8.5z"/>
+                </svg>
+            </a>
+          
+            <!-- X -->
+            <a href="https://x.com/"
+               target="_blank"
+               class="w-9 h-9 bg-gray-800 hover:bg-black rounded-lg flex items-center justify-center transition-colors">
+                <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                    <path d="M18.9 2H22l-6.8 7.8L23 22h-6.2l-4.8-6.3L6.4 22H3.3l7.2-8.2L1 2h6.3l4.3 5.7L18.9 2z"/>
+                </svg>
+            </a>
+        </div>
         </div>
         <div>
           <h4 class="text-white font-semibold mb-5">Quick Links</h4>
@@ -176,7 +199,7 @@
         <div>
           <h4 class="text-white font-semibold mb-5">Contact Us</h4>
           <ul class="space-y-4">
-            <li class="flex items-start gap-3"><i data-lucide="map-pin" class="w-4 h-4 text-teal-400 mt-0.5 flex-shrink-0"></i><span class="text-sm text-gray-400">123 Marina Street, Lagos Island, Nigeria</span></li>
+            <li class="flex items-start gap-3"><i data-lucide="map-pin" class="w-4 h-4 text-teal-400 mt-0.5 flex-shrink-0"></i><span class="text-sm text-gray-400">Access Bank Bus Stop, H & B Plaza Blo B9, Bogije, Ibeju Lekki 105101, Lagos, Nigeria</span></li>
             <li class="flex items-center gap-3"><i data-lucide="phone" class="w-4 h-4 text-teal-400 flex-shrink-0"></i><a href="tel:{{ PHONE_NUMBER }}" class="text-sm text-gray-400 hover:text-teal-400 transition-colors">{{ PHONE_NUMBER }}</a></li>
             <li class="flex items-center gap-3"><i data-lucide="mail" class="w-4 h-4 text-teal-400 flex-shrink-0"></i><a href="mailto:{{ CONTACT_EMAIL }}" class="text-sm text-gray-400 hover:text-teal-400 transition-colors">{{ CONTACT_EMAIL }}</a></li>
             <li class="flex items-center gap-3"><i data-lucide="clock" class="w-4 h-4 text-teal-400 flex-shrink-0"></i><span class="text-sm text-gray-400">Mon–Sat: 8AM – 6PM</span></li>

@@ -2,6 +2,7 @@ import os
 from pathlib import Path
 
 import environ
+import dj_database_url
 
 # ------------------------------------------------------------------------------
 # Paths
@@ -9,33 +10,6 @@ import environ
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# ------------------------------------------------------------------------------
-# Environment
-# ------------------------------------------------------------------------------
-
-env = environ.Env(
-    DEBUG=(bool, False),
-)
-
-environ.Env.read_env(BASE_DIR / ".env")
-
-# ------------------------------------------------------------------------------
-# Security
-# ------------------------------------------------------------------------------
-
-SECRET_KEY = env("SECRET_KEY")
-
-DEBUG = env.bool("DEBUG", default=False)
-
-ALLOWED_HOSTS = env.list(
-    "ALLOWED_HOSTS",
-    default=["localhost", "127.0.0.1"],
-)
-
-CSRF_TRUSTED_ORIGINS = env.list(
-    "CSRF_TRUSTED_ORIGINS",
-    default=[],
-)
 
 # ------------------------------------------------------------------------------
 # Environment
@@ -65,6 +39,10 @@ CSRF_TRUSTED_ORIGINS = env.list(
     default=[],
 )
 
+# custom domain after deployed:
+
+# https://defolasproperties.com
+# https://www.defolasproperties.com
 # ------------------------------------------------------------------------------
 # Applications
 # ------------------------------------------------------------------------------
@@ -141,16 +119,11 @@ WSGI_APPLICATION = "defola_project.wsgi.application"
 # ------------------------------------------------------------------------------
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": env("POSTGRES_DB"),
-        "USER": env("POSTGRES_USER"),
-        "PASSWORD": env("POSTGRES_PASSWORD"),
-        "HOST": env("POSTGRES_HOST"),
-        "PORT": env.int("POSTGRES_PORT", default=5432),
-    }
+    "default": dj_database_url.config(
+        default=env("DATABASE_URL"),
+        conn_max_age=600,
+    )
 }
-
 # ------------------------------------------------------------------------------
 # Password Validation
 # ------------------------------------------------------------------------------
@@ -202,9 +175,14 @@ STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
 
-STATICFILES_STORAGE = (
-    "whitenoise.storage.CompressedManifestStaticFilesStorage"
-)
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
 
 # ------------------------------------------------------------------------------
 # Media Files
@@ -262,12 +240,12 @@ SITE_TAGLINE = "Your Trusted Real Estate Partner in Nigeria"
 
 WHATSAPP_NUMBER = env(
     "WHATSAPP_NUMBER",
-    default="+2348000000000",
+    default="+2347061536383",
 )
 
 PHONE_NUMBER = env(
     "PHONE_NUMBER",
-    default="+2348000000000",
+    default="+2347061536383",
 )
 
 CONTACT_EMAIL = env(
@@ -302,6 +280,13 @@ LOGGING = {
 # ------------------------------------------------------------------------------
 # Production Security
 # ------------------------------------------------------------------------------
+
+USE_X_FORWARDED_HOST = True
+
+SECURE_PROXY_SSL_HEADER = (
+    "HTTP_X_FORWARDED_PROTO",
+    "https",
+)
 
 if not DEBUG:
     SECURE_SSL_REDIRECT = True

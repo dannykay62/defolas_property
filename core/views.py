@@ -3,6 +3,10 @@ from django.contrib import messages
 from properties.models import Property, Testimonial, Location
 from properties.forms import InquiryForm, PropertySearchForm
 from .models import SiteSettings, TeamMember
+from django.http import HttpResponse
+
+def health_check(request):
+    return HttpResponse("OK")
 
 
 def home(request):

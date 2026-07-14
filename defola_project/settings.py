@@ -205,8 +205,12 @@ STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
+# Disables Cloudinary's custom collection logic so WhiteNoise can compile flawlessly
+DATABASE_STORAGE_IGNORE_STATICFILES = True
+
+
 # Dummy variable to fix a compatibility bug in django-cloudinary-storage with Django 5.1+
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
 # Base URL used to access media files

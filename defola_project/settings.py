@@ -48,7 +48,6 @@ CSRF_TRUSTED_ORIGINS = env.list(
 
 INSTALLED_APPS = [
     # Cloudinary
-    'cloudinary_storage',
     'cloudinary',
 
     # Local apps
@@ -227,15 +226,14 @@ CLOUDINARY_STORAGE = {
 }
 
 # Routinely direct media uploads to Cloudinary
-STORAGES = {
+SSTORAGES = {
     "default": {
-        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
+        "BACKEND": "cloudinary.storage.CloudinaryStorage",
     },
     "staticfiles": {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
-
 
 
 # ------------------------------------------------------------------------------

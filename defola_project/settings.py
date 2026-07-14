@@ -4,12 +4,22 @@ from pathlib import Path
 import environ
 import dj_database_url
 
+import cloudinary
+
 # ------------------------------------------------------------------------------
 # Paths
 # ------------------------------------------------------------------------------
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+
+
+cloudinary.config(
+    cloud_name=env("CLOUDINARY_CLOUD_NAME"),
+    api_key=env("CLOUDINARY_API_KEY"),
+    api_secret=env("CLOUDINARY_API_SECRET"),
+    secure=True,
+)
 
 # ------------------------------------------------------------------------------
 # Environment
@@ -48,6 +58,11 @@ CSRF_TRUSTED_ORIGINS = env.list(
 # ------------------------------------------------------------------------------
 
 INSTALLED_APPS = [
+
+    # Cloudinary
+    "cloudinary",
+    "cloudinary_storage",
+
     # Local apps
     "core",
     "dashboard",
@@ -188,9 +203,16 @@ STORAGES = {
 # Media Files
 # ------------------------------------------------------------------------------
 
-MEDIA_URL = "/media/"
+STORAGES = {
+    "default": {
+        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
 
-MEDIA_ROOT = BASE_DIR / "media"
+MEDIA_URL = "/media/"
 
 # ------------------------------------------------------------------------------
 # WhiteNoise

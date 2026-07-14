@@ -4,8 +4,6 @@ from pathlib import Path
 import environ
 import dj_database_url
 
-import cloudinary
-
 # ------------------------------------------------------------------------------
 # Paths
 # ------------------------------------------------------------------------------
@@ -21,23 +19,6 @@ env = environ.Env(
 )
 
 environ.Env.read_env(BASE_DIR / ".env")
-
-
-CLOUDINARY_CLOUD_NAME = env("CLOUDINARY_CLOUD_NAME", default="")
-CLOUDINARY_API_KEY = env("CLOUDINARY_API_KEY", default="")
-CLOUDINARY_API_SECRET = env("CLOUDINARY_API_SECRET", default="")
-
-if all([
-    CLOUDINARY_CLOUD_NAME,
-    CLOUDINARY_API_KEY,
-    CLOUDINARY_API_SECRET,
-]):
-    cloudinary.config(
-        cloud_name=CLOUDINARY_CLOUD_NAME,
-        api_key=CLOUDINARY_API_KEY,
-        api_secret=CLOUDINARY_API_SECRET,
-        secure=True,
-    )
 
 # ------------------------------------------------------------------------------
 # Security
@@ -66,9 +47,9 @@ CSRF_TRUSTED_ORIGINS = env.list(
 # ------------------------------------------------------------------------------
 
 INSTALLED_APPS = [
-
     # Cloudinary
-    "cloudinary",
+    'cloudinary_storage',
+    'cloudinary',
 
     # Local apps
     "core",
@@ -189,35 +170,59 @@ USE_TZ = True
 # Static Files
 # ------------------------------------------------------------------------------
 
-STATIC_URL = "/static/"
+# STATIC_URL = "/static/"
 
-STATIC_ROOT = BASE_DIR / "staticfiles"
+# STATIC_ROOT = BASE_DIR / "staticfiles"
 
-STATICFILES_DIRS = [
-    BASE_DIR / "static",
-]
+# STATICFILES_DIRS = [
+#     BASE_DIR / "static",
+# ]
 
-STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
+# STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
 
-STATICFILES_FINDERS = [
-    "django.contrib.staticfiles.finders.FileSystemFinder",
-    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
-]
+# STATICFILES_FINDERS = [
+#     "django.contrib.staticfiles.finders.FileSystemFinder",
+#     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
+# ]
 
 # ------------------------------------------------------------------------------
 # Media Files
 # ------------------------------------------------------------------------------
 
-MEDIA_URL = "/media/"
+# MEDIA_URL = "/media/"
 
+# STORAGES = {
+#     "default": {
+#         "BACKEND": "django.core.files.storage.FileSystemStorage",
+#     },
+#     "staticfiles": {
+#         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+#     },
+# }
+
+
+import os
+
+# Base URL used to access media files
+MEDIA_URL = '/media/'
+
+# Pull secrets from environment variables
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME'),
+    'API_KEY': os.environ.get('CLOUDINARY_API_KEY'),
+    'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET'),
+}
+
+# Routinely direct media uploads to Cloudinary
 STORAGES = {
     "default": {
         "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
     },
     "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage", # Or WhiteNoise
     },
 }
+
 # ------------------------------------------------------------------------------
 # WhiteNoise
 # ------------------------------------------------------------------------------

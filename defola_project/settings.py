@@ -210,8 +210,11 @@ DATABASE_STORAGE_IGNORE_STATICFILES = True
 
 
 # Dummy variable to fix a compatibility bug in django-cloudinary-storage with Django 5.1+
-# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# Mandated fallback to bypass django-cloudinary-storage asset hooks
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
+# Prevents Cloudinary from altering asset aggregation
+DATABASE_STORAGE_IGNORE_STATICFILES = True
 
 # Base URL used to access media files
 MEDIA_URL = '/media/'

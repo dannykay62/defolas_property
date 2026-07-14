@@ -23,12 +23,21 @@ env = environ.Env(
 environ.Env.read_env(BASE_DIR / ".env")
 
 
-cloudinary.config(
-    cloud_name=env("CLOUDINARY_CLOUD_NAME"),
-    api_key=env("CLOUDINARY_API_KEY"),
-    api_secret=env("CLOUDINARY_API_SECRET"),
-    secure=True,
-)
+CLOUDINARY_CLOUD_NAME = env("CLOUDINARY_CLOUD_NAME", default="")
+CLOUDINARY_API_KEY = env("CLOUDINARY_API_KEY", default="")
+CLOUDINARY_API_SECRET = env("CLOUDINARY_API_SECRET", default="")
+
+if all([
+    CLOUDINARY_CLOUD_NAME,
+    CLOUDINARY_API_KEY,
+    CLOUDINARY_API_SECRET,
+]):
+    cloudinary.config(
+        cloud_name=CLOUDINARY_CLOUD_NAME,
+        api_key=CLOUDINARY_API_KEY,
+        api_secret=CLOUDINARY_API_SECRET,
+        secure=True,
+    )
 
 # ------------------------------------------------------------------------------
 # Security
@@ -60,7 +69,6 @@ INSTALLED_APPS = [
 
     # Cloudinary
     "cloudinary",
-    "cloudinary_storage",
 
     # Local apps
     "core",

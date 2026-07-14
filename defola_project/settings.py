@@ -234,7 +234,7 @@ cloudinary.config(
 )
 
 # Routinely direct media uploads to Cloudinary
-SSTORAGES = {
+STORAGES = {
     "default": {
         "BACKEND": "cloudinary.storage.CloudinaryStorage",
     },

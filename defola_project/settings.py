@@ -201,7 +201,9 @@ USE_TZ = True
 # }
 
 
-import os
+STATIC_URL = '/static/'
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Base URL used to access media files
 MEDIA_URL = '/media/'
@@ -219,9 +221,10 @@ STORAGES = {
         "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
     },
     "staticfiles": {
-        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage", # Or WhiteNoise
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
+
 
 # ------------------------------------------------------------------------------
 # WhiteNoise

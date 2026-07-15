@@ -42,10 +42,13 @@ CSRF_TRUSTED_ORIGINS = env.list(
     default=[],
 )
 
-# custom domain after deployed:
 
-# https://defolasproperties.com
-# https://www.defolasproperties.com
+CLOUDINARY_STORAGE = {
+    "CLOUD_NAME": env("CLOUDINARY_CLOUD_NAME"),
+    "API_KEY": env("CLOUDINARY_API_KEY"),
+    "API_SECRET": env("CLOUDINARY_API_SECRET"),
+}
+
 # ------------------------------------------------------------------------------
 # Applications
 # ------------------------------------------------------------------------------
@@ -211,15 +214,13 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),  # Points to a folder named "static" in your root directory
 ]
 
-# Disables Cloudinary's custom collection logic so WhiteNoise can compile flawlessly
-DATABASE_STORAGE_IGNORE_STATICFILES = True
 
 
 # Dummy variable to fix a compatibility bug in django-cloudinary-storage with Django 5.1+
 # Mandated fallback to bypass django-cloudinary-storage asset hooks
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-# Prevents Cloudinary from altering asset aggregation
+# Disables Cloudinary's custom collection logic so WhiteNoise can compile flawlessly
 DATABASE_STORAGE_IGNORE_STATICFILES = True
 
 # Base URL used to access media files
@@ -236,7 +237,7 @@ cloudinary.config(
 # Routinely direct media uploads to Cloudinary
 STORAGES = {
     "default": {
-        "BACKEND": "cloudinary.storage.CloudinaryStorage",
+        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
     },
     "staticfiles": {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
